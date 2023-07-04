@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import ReactQuill from "react-quill";
 // import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,6 +12,7 @@ interface Note {
 }
 
 const Form = () => {
+  const router = useRouter();
   // const editorRef = useRef<typeof ReactQuill>(null);
   const editorRef = useRef<ReactQuill>(null);
   const [content, setContent] = useState<string>("");
@@ -66,6 +68,7 @@ const Form = () => {
         "https://church-note-taker.glitch.me/notes",
         body
       );
+      router.push("/");
       console.log("Post request successful:", response.data);
     } catch (error) {
       console.error("Error occurred while saving content:", error);
