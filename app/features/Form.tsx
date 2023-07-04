@@ -13,7 +13,6 @@ interface Note {
 
 const Form = () => {
   const router = useRouter();
-  // const editorRef = useRef<typeof ReactQuill>(null);
   const editorRef = useRef<ReactQuill>(null);
   const [content, setContent] = useState<string>("");
   const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true);
