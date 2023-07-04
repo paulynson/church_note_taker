@@ -20,7 +20,6 @@ export default function RootLayout({
       <body
         className={`${poppins.className} container mx-auto min-h-screen px-4 py-6 xl:px-48`}
       >
-        {/* <body className={poppins.className}> */}
         <Header />
         {children}
         <Footer />
