@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, FormEvent } from "react";
-// @ts-ignore
 import ReactQuill from "react-quill";
+// import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ interface Note {
 }
 
 const Form = () => {
+  // const editorRef = useRef<typeof ReactQuill>(null);
   const editorRef = useRef<ReactQuill>(null);
   const [content, setContent] = useState<string>("");
   const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true);
