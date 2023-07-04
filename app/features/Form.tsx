@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef, FormEvent } from "react";
+// @ts-ignore
 import ReactQuill from "react-quill";
+// const {ReactQuill} = require('react-quill')
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
