@@ -13,11 +13,18 @@ interface Note {
 
 const Form = () => {
   const router = useRouter();
-  const editorRef = useRef<ReactQuill>(null);
+  // const editorRef = useRef<ReactQuill>(null);
+  const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>("");
   const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const ReactQuill = require("react-quill");
+      // Update the editorRef with the correct type
+      editorRef.current = ReactQuill;
+    }
+
     const checkInputEmpty = () => {
       setIsInputEmpty(editorRef.current?.getEditor().getText().trim() === "");
     };
