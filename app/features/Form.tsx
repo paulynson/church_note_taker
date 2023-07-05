@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import ReactQuill from "react-quill";
-// import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
@@ -11,20 +11,20 @@ interface Note {
   message: string;
 }
 
+let ReactQuillCall: typeof import("react-quill");
+
+if (typeof window !== "undefined") {
+  ReactQuillCall = require("react-quill");
+  require("react-quill/dist/quill.snow.css");
+}
+
 const Form = () => {
   const router = useRouter();
-  // const editorRef = useRef<ReactQuill>(null);
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<ReactQuill | null>(null);
   const [content, setContent] = useState<string>("");
   const [isInputEmpty, setIsInputEmpty] = useState<boolean>(true);
 
   useEffect(() => {
-    // if (typeof window !== "undefined") {
-    //   const ReactQuill = require("react-quill");
-    // Update the editorRef with the correct type
-    //   editorRef.current = ReactQuill;
-    // }
-
     const checkInputEmpty = () => {
       setIsInputEmpty(editorRef.current?.getEditor().getText().trim() === "");
     };
@@ -47,7 +47,6 @@ const Form = () => {
     setContent(value);
   };
 
-  // Submit Function
   const saveContentToBackend = async (e: FormEvent) => {
     e.preventDefault();
     console.log("Content saved successfully!", content);
@@ -81,6 +80,11 @@ const Form = () => {
     }
   };
 
+  if (!ReactQuill) {
+    // Render a placeholder or alternative component if ReactQuill is not available
+    return null;
+  }
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -110,7 +114,7 @@ const Form = () => {
   ];
 
   return (
-    <section className=" flex w-full flex-col items-center justify-center p-2  ">
+    <section className="flex w-full flex-col items-center justify-center p-2">
       <ReactQuill
         value={content}
         onChange={handleContentChange}
@@ -121,23 +125,21 @@ const Form = () => {
         className="h-[300px] min-w-[300px] rounded-lg lg:w-[500px]"
       />
 
-      <>
-        {isInputEmpty ? (
-          <button
-            disabled={isInputEmpty}
-            className="mt-20 cursor-not-allowed rounded-full bg-slate-300 px-4 py-2 text-slate-400"
-          >
-            Save Note
-          </button>
-        ) : (
-          <button
-            onClick={saveContentToBackend}
-            className="mt-20 cursor-pointer rounded-full bg-pry px-4 py-2 text-navy hover:bg-navy hover:text-pry"
-          >
-            Save Note
-          </button>
-        )}
-      </>
+      {isInputEmpty ? (
+        <button
+          disabled={isInputEmpty}
+          className="mt-20 cursor-not-allowed rounded-full bg-slate-300 px-4 py-2 text-slate-400"
+        >
+          Save Note
+        </button>
+      ) : (
+        <button
+          onClick={saveContentToBackend}
+          className="mt-20 cursor-pointer rounded-full bg-pry px-4 py-2 text-navy hover:bg-navy hover:text-pry"
+        >
+          Save Note
+        </button>
+      )}
     </section>
   );
 };

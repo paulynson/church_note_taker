@@ -28,8 +28,8 @@ const Notes = async () => {
           key={note.id}
           className="rounded-lg px-4 py-6 shadow-lg hover:bg-pry hover:text-navy"
         >
-          {/* <div dangerouslySetInnerHTML={{ __html: note.message }} /> */}
-          <div>{note.message}</div>
+          <div dangerouslySetInnerHTML={{ __html: note.message }} />
+          {/* <div>{note.message}</div> */}
           <span className=" text-sm font-bold">{note.datetime}</span>
         </Link>
       ))}
